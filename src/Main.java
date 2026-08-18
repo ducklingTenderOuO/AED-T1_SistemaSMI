@@ -4,16 +4,19 @@ import java.io.*;
 public class Main {
     private SistemaSMI gestor;
     private Scanner scanner;
+    private static final String ARCHIVO_CSV = "Instrumentos.csv";
 
     public Main() {
         this.gestor = new SistemaSMI();
         this.scanner = new Scanner(System.in);
+
+        cargarAutomaticamente();
     }
 
     public void mostrarMain() {
         int opcion;
         do {
-            System.out.println("\n=== SISTEMA DE INSTRUMENTOS PSICOLOGICOS ===");
+            System.out.println("\n=== SISTEMA DE INSTRUMENTOS ===");
             System.out.println("1. Agregar instrumento");
             System.out.println("2. Buscar por autor");
             System.out.println("3. Buscar por tipo (identificar/manejar)");
@@ -23,9 +26,6 @@ public class Main {
             System.out.println("7. Mostrar todos ordenados por clave");
             System.out.println("8. Mostrar todos ordenados por primer autor");
             System.out.println("9. Eliminar instrumento por clave");
-            System.out.println("10. Guardar en CSV");
-            System.out.println("11. Cargar desde CSV");
-            System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");
 
             opcion = scanner.nextInt();
@@ -41,12 +41,39 @@ public class Main {
                 case 7: mostrarOrdenadosPorClave(); break;
                 case 8: mostrarOrdenadosPorAutor(); break;
                 case 9: eliminarInstrumento(); break;
-                case 10: guardarCSV(); break;
-                case 11: cargarCSV(); break;
-                case 0: System.out.println("Hasta luego!"); break;
+                case 0:
+                    System.out.println("Guardando datos...");
+                    guardarAutomaticamente();
+                    System.out.println("ADIO:D!");
+                    break;
                 default: System.out.println("Opcion no valida");
             }
         } while(opcion != 0);
+    }
+
+    private void cargarAutomaticamente() {
+        try {
+            File archivo = new File(ARCHIVO_CSV);
+            if (archivo.exists()) {
+                List<Instrumento> cargados = AlmacenamientoCSV.cargarCSV(ARCHIVO_CSV);
+                gestor.cargarInstrumentos(cargados);
+                System.out.println("Datos cargados automaticamente desde " + ARCHIVO_CSV);
+                System.out.println("Total: " + cargados.size() + " instrumentos cargados");
+            } else {
+                System.out.println("No se encontro archivo previo. Comenzando desde cero.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al cargar datos: " + e.getMessage());
+        }
+    }
+
+    private void guardarAutomaticamente() {
+        try {
+            AlmacenamientoCSV.guardarCSV(ARCHIVO_CSV, gestor.obtenerTodos());
+            System.out.println("Datos guardados automaticamente en " + ARCHIVO_CSV);
+        } catch (IOException e) {
+            System.out.println("Error al guardar datos: " + e.getMessage());
+        }
     }
 
     private void agregarInstrumento() {
@@ -146,36 +173,6 @@ public class Main {
             System.out.println("Instrumento eliminado exitosamente.");
         } else {
             System.out.println("No se encontro un instrumento con esa clave.");
-        }
-    }
-
-    private void guardarCSV() {
-        System.out.print("Nombre del archivo CSV: ");
-        String archivo = scanner.nextLine();
-        if (!archivo.endsWith(".csv")) {
-            archivo += ".csv";
-        }
-        try {
-            AlmacenamientoCSV.guardarCSV(archivo, gestor.obtenerTodos());
-            System.out.println("Datos guardados correctamente en " + archivo);
-        } catch (IOException e) {
-            System.out.println("Error al guardar: " + e.getMessage());
-        }
-    }
-
-    private void cargarCSV() {
-        System.out.print("Nombre del archivo CSV: ");
-        String archivo = scanner.nextLine();
-        if (!archivo.endsWith(".csv")) {
-            archivo += ".csv";
-        }
-        try {
-            List<Instrumento> cargados = AlmacenamientoCSV.cargarCSV(archivo);
-            gestor.cargarInstrumentos(cargados);
-            System.out.println("Datos cargados correctamente desde " + archivo);
-            System.out.println("Total: " + cargados.size() + " instrumentos cargados");
-        } catch (IOException e) {
-            System.out.println("Error al cargar: " + e.getMessage());
         }
     }
 

@@ -8,11 +8,11 @@ class AlmacenamientoCSV {
     public static void guardarCSV(String archivo, List<Instrumento> instrumentos)
             throws IOException {
         try (PrintWriter pw = new PrintWriter(new FileWriter(archivo))) {
-            pw.println("Nombre,Forma,Tipo,Condicion,Autores,Evaluado,Cita");
+            pw.println("Nombre,Forma,Tipo,Condicion,Autores,Evaluado,Cita"); //head
 
             for (Instrumento inst : instrumentos) {
                 String autoresStr = String.join(";", inst.getAutores());
-                pw.printf("%s,%s,%s,%s,%s,%b,%s%n",
+                pw.printf("%s,%s,%s,%s,%s,%b,%s%n", // lineaaa
                         inst.getNombre(),
                         inst.getForma(),
                         inst.getTipo(),
