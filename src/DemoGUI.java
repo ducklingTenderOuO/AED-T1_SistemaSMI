@@ -3,9 +3,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class DemoGUI extends Application {
 
@@ -16,7 +14,7 @@ public class DemoGUI extends Application {
     public void start(Stage ventana) {
         ventana.setTitle("Instrumentos");
         
-        //botones del menu principal
+        //botones del menú principal
         VBox layoutMenu = new VBox(15);
         Label lblMenu = new Label("--- MENÚ PRINCIPAL ---");
         Button btnIrRegistro = new Button("Registrar nuevo instrumento");
@@ -41,7 +39,7 @@ public class DemoGUI extends Application {
         cbValidez.getItems().addAll("Sí", "No");
         TextField txtCita = new TextField();
         txtCita.setPromptText("Cita bibliográfica");
-        //si la validez es no, no se puede poner cita
+        //si la validez fue marcada como no, no se puede poner cita
         cbValidez.setOnAction(e -> {
             if ("No".equals(cbValidez.getValue())) {
                 txtCita.setDisable(true);
@@ -50,7 +48,6 @@ public class DemoGUI extends Application {
                 txtCita.setDisable(false);
             }
         });
-
         Button btnGuardar = new Button("Guardar");
         Button btnCancelarReg = new Button("Regresar al Menú");
 
@@ -69,7 +66,7 @@ public class DemoGUI extends Application {
         });
 
         btnCancelarReg.setOnAction(e -> ventana.setScene(escenaMenu));
-
+        
         layoutRegistro.getChildren().addAll(
                 new Label("Nombre:"), txtNombre, new Label("Forma:"), cbForma,
                 new Label("Tipo:"), cbTipo, new Label("Condición:"), cbCondicion,
@@ -77,9 +74,9 @@ public class DemoGUI extends Application {
                 new Label("Cita:"), txtCita, btnGuardar, btnCancelarReg
         );
         escenaRegistro = new Scene(layoutRegistro, 300, 500);
-
+        
         VBox layoutAccion = new VBox(10);
-        Label lblInstruccion = new Label("Instrucción aquí");
+        Label lblInstruccion = new Label("");
         TextField txtInput = new TextField();
         Button btnEjecutar = new Button("Buscar");
         ListView<String> listaResultados = new ListView<>();
@@ -89,7 +86,7 @@ public class DemoGUI extends Application {
 
         btnRegresarSubmenu.setOnAction(e -> ventana.setScene(escenaSubmenuGestion));
 
-        //menu de gestion de instrumentos
+        //botones del menu de gestion de instrumentos
         VBox layoutSubmenu = new VBox(10);
         Label lblSubmenu = new Label("--- GESTIONAR INSTRUMENTOS ---");
         Button btnBuscarAutor = new Button("Buscar por Autor");
@@ -158,7 +155,7 @@ public class DemoGUI extends Application {
         //buscar por evaluación
         btnBuscarEvaluacion.setOnAction(e -> {
             prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "¿El instrumento esta evaluado? ('si' , 'no'):", true);
+                    "¿El instrumento está evaluado? ('si' , 'no'):", true);
 
             btnEjecutar.setOnAction(ev -> {
                 listaResultados.getItems().clear();
@@ -221,7 +218,7 @@ public class DemoGUI extends Application {
                 btnOrdenarAutor, btnEliminar, btnMostrarTodos, btnRegresarMain
         );
         escenaSubmenuGestion = new Scene(layoutSubmenu, 350, 450);
-        //accion de botones del menu principal
+        //acción de botones del menú principal
         btnIrRegistro.setOnAction(e -> ventana.setScene(escenaRegistro));
         btnIrGestion.setOnAction(e -> ventana.setScene(escenaSubmenuGestion));
         btnSalir.setOnAction(e -> ventana.close());
@@ -231,14 +228,14 @@ public class DemoGUI extends Application {
         ventana.show();
     }
 
-    //esto es para no ocupar reescribir el layout de gestion de instrumentos por cada opcion
+    //esto es para no ocupar reescribir el layout de gestión de instrumentos por cada gestión
     private void prepararPantallaAccion(Label lbl, TextField txt, Button btn, ListView<String> lista,
                                         String textoInstruccion, boolean requiereInput) {
         lbl.setText(textoInstruccion);
         txt.clear();
         lista.getItems().clear();
 
-        //si no se ocupa escribir se esconden las cajas de texto y boton
+        //si no se ocupa escribir se esconden las cajas de texto y botónes
         txt.setVisible(requiereInput);
         txt.setManaged(requiereInput);
         btn.setVisible(requiereInput);
