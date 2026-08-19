@@ -158,7 +158,7 @@ public class DemoGUI extends Application {
         //buscar por evaluación
         btnBuscarEvaluacion.setOnAction(e -> {
             prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "¿Buscar instrumentos evaluados? ('si' o 'no'):", true);
+                    "¿El instrumento esta evaluado? ('si' , 'no'):", true);
 
             btnEjecutar.setOnAction(ev -> {
                 listaResultados.getItems().clear();
