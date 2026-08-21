@@ -86,7 +86,6 @@ public class DemoGUI extends Application {
 
         btnGuardar.setOnAction(e -> {
             try {
-                // Validar campos
                 if (txtNombre.getText().isEmpty() || cbForma.getValue() == null ||
                         cbTipo.getValue() == null || cbCondicion.getValue() == null) {
                     mostrarAlerta("Error", "Todos los campos obligatorios deben llenarse");
@@ -94,7 +93,6 @@ public class DemoGUI extends Application {
                 }
 
                 boolean evaluado = "Si".equals(cbValidez.getValue());
-                // Convertir autores: separar por coma y eliminar espacios
                 List<String> autores = new ArrayList<>();
                 if (!txtAutores.getText().isEmpty()) {
                     String[] partes = txtAutores.getText().split(",");
@@ -147,14 +145,29 @@ public class DemoGUI extends Application {
         escenaRegistro = new Scene(layoutRegistro, 350, 650);
 
         VBox layoutAccion = new VBox(10);
+        layoutAccion.setStyle("-fx-padding: 20;");
+
         Label lblInstruccion = new Label("");
+        lblInstruccion.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+
+        ComboBox<String> cbFiltro = new ComboBox<>();
+        cbFiltro.setPromptText("Seleccione una opcion");
+        cbFiltro.setStyle("-fx-min-width: 200px;");
+
         TextField txtInput = new TextField();
-        Button btnEjecutar = new Button("Buscar");
+        txtInput.setPromptText("Ingrese el valor a buscar...");
+
+        Button btnEjecutar = new Button("Ejecutar");
+        btnEjecutar.setStyle("-fx-background-color: #4dabf7;");
+
         ListView<String> listaResultados = new ListView<>();
-        Button btnRegresarSubmenu = new Button("Regresar al Submenú");
-        layoutAccion.getChildren().addAll(lblInstruccion, txtInput, btnEjecutar,
+        listaResultados.setStyle("-fx-min-height: 200px;");
+
+        Button btnRegresarSubmenu = new Button("Regresar al Submenu");
+
+        layoutAccion.getChildren().addAll(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
                 listaResultados, btnRegresarSubmenu);
-        escenaAccion = new Scene(layoutAccion, 500, 450);
+        escenaAccion = new Scene(layoutAccion, 500, 500);
 
         btnRegresarSubmenu.setOnAction(e -> ventana.setScene(escenaSubmenuGestion));
 
@@ -176,7 +189,6 @@ public class DemoGUI extends Application {
         Button btnMostrarTodos = new Button("Mostrar Todos");
         Button btnRegresarMain = new Button("Regresar al Menu Principal");
 
-        // Estilo a todos los botones
         Button[] botones = {btnBuscarAutor, btnBuscarTipo, btnBuscarForma,
                 btnBuscarCondicion, btnBuscarEvaluacion, btnOrdenarClave,
                 btnOrdenarAutor, btnEliminar, btnMostrarTodos};
@@ -187,93 +199,132 @@ public class DemoGUI extends Application {
 
         //buscar por autor
         btnBuscarAutor.setOnAction(e -> {
-            prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "Ingresa el nombre del autor a buscar:", true);
+            prepararPantallaAccion(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
+                    listaResultados, "Ingresa el nombre del autor a buscar:", false, null);
             btnEjecutar.setOnAction(ev -> {
                 listaResultados.getItems().clear();
-                List<Instrumento> res = gestor.buscarPorAutor(txtInput.getText());
-                for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                String autor = txtInput.getText();
+                if (!autor.isEmpty()) {
+                    List<Instrumento> res = gestor.buscarPorAutor(autor);
+                    for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                    if (res.isEmpty()) {
+                        listaResultados.getItems().add("No se encontraron resultados");
+                    }
+                }
             });
             ventana.setScene(escenaAccion);
         });
 
         //buscar por tipo
         btnBuscarTipo.setOnAction(e -> {
-            prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "Ingresa el tipo (identificar/manejar):", true);
+            prepararPantallaAccion(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
+                    listaResultados, "Seleccione el tipo:", true, "Identificar", "Manejar", "Ambos");
             btnEjecutar.setOnAction(ev -> {
                 listaResultados.getItems().clear();
-                List<Instrumento> res = gestor.buscarPorTipo(txtInput.getText());
-                for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                String tipo = cbFiltro.getValue();
+                if (tipo != null) {
+                    List<Instrumento> res = gestor.buscarPorTipo(tipo);
+                    for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                    if (res.isEmpty()) {
+                        listaResultados.getItems().add("No se encontraron resultados");
+                    }
+                }
             });
             ventana.setScene(escenaAccion);
         });
 
         //buscar por forma
         btnBuscarForma.setOnAction(e -> {
-            prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "Ingresa la forma (test/escala/cuestionario):", true);
+            prepararPantallaAccion(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
+                    listaResultados, "Seleccione la forma:", true, "Test", "Escala", "Cuestionario");
             btnEjecutar.setOnAction(ev -> {
                 listaResultados.getItems().clear();
-                List<Instrumento> res = gestor.buscarPorForma(txtInput.getText());
-                for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                String forma = cbFiltro.getValue();
+                if (forma != null) {
+                    List<Instrumento> res = gestor.buscarPorForma(forma);
+                    for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                    if (res.isEmpty()) {
+                        listaResultados.getItems().add("No se encontraron resultados");
+                    }
+                }
             });
             ventana.setScene(escenaAccion);
         });
 
         //buscar por condición
         btnBuscarCondicion.setOnAction(e -> {
-            prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "Ingresa la condición (ansiedad/estres):", true);
+            prepararPantallaAccion(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
+                    listaResultados, "Seleccione la condicion:", true, "Ansiedad", "Estres", "Ambos");
             btnEjecutar.setOnAction(ev -> {
                 listaResultados.getItems().clear();
-                List<Instrumento> res = gestor.buscarPorCondicion(txtInput.getText());
-                for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                String condicion = cbFiltro.getValue();
+                if (condicion != null) {
+                    List<Instrumento> res = gestor.buscarPorCondicion(condicion);
+                    for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                    if (res.isEmpty()) {
+                        listaResultados.getItems().add("No se encontraron resultados");
+                    }
+                }
             });
             ventana.setScene(escenaAccion);
         });
 
         //buscar por evaluación
         btnBuscarEvaluacion.setOnAction(e -> {
-            prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "¿El instrumento está evaluado? ('si' , 'no'):", true);
+            prepararPantallaAccion(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
+                    listaResultados, "Seleccione si esta evaluado:", true, "Si", "No");
             btnEjecutar.setOnAction(ev -> {
                 listaResultados.getItems().clear();
-                boolean esEvaluado = txtInput.getText().equalsIgnoreCase("si");
-                List<Instrumento> res = gestor.buscarPorEvaluacion(esEvaluado);
-                for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                String valor = cbFiltro.getValue();
+                if (valor != null) {
+                    boolean evaluado = valor.equals("Si");
+                    List<Instrumento> res = gestor.buscarPorEvaluacion(evaluado);
+                    for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+                    if (res.isEmpty()) {
+                        listaResultados.getItems().add("No se encontraron resultados");
+                    }
+                }
             });
             ventana.setScene(escenaAccion);
         });
 
         //ordenar por clave
         btnOrdenarClave.setOnAction(e -> {
-            prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "Instrumentos ordenados por Clave:", false);
+            prepararPantallaAccion(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
+                    listaResultados, "Instrumentos ordenados por Clave:", false, null);
             List<Instrumento> res = gestor.ordenarPorClave();
             for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+            if (res.isEmpty()) {
+                listaResultados.getItems().add("No hay instrumentos registrados");
+            }
             ventana.setScene(escenaAccion);
         });
 
         //ordenar por autor
         btnOrdenarAutor.setOnAction(e -> {
-            prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "Instrumentos ordenados por Primer Autor:", false);
+            prepararPantallaAccion(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
+                    listaResultados, "Instrumentos ordenados por Primer Autor:", false, null);
             List<Instrumento> res = gestor.ordenarPorPrimerAutor();
             for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+            if (res.isEmpty()) {
+                listaResultados.getItems().add("No hay instrumentos registrados");
+            }
             ventana.setScene(escenaAccion);
         });
 
         //eliminar por clave
         btnEliminar.setOnAction(e -> {
-            prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "Ingresa el nombre del instrumento a eliminar:", true);
+            prepararPantallaAccion(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
+                    listaResultados, "Ingresa el nombre del instrumento a eliminar:", false, null);
             btnEjecutar.setOnAction(ev -> {
                 listaResultados.getItems().clear();
-                if (gestor.eliminarPorClave(txtInput.getText())) {
-                    listaResultados.getItems().add("Se eliminó el instrumento correctamente.");
-                } else {
-                    listaResultados.getItems().add("No se encontró ningún instrumento con ese nombre.");
+                String nombre = txtInput.getText();
+                if (!nombre.isEmpty()) {
+                    if (gestor.eliminarPorClave(nombre)) {
+                        listaResultados.getItems().add("Instrumento eliminado correctamente");
+                    } else {
+                        listaResultados.getItems().add("No se encontro instrumento con ese nombre");
+                    }
                 }
             });
             ventana.setScene(escenaAccion);
@@ -281,10 +332,13 @@ public class DemoGUI extends Application {
 
         //mostrar todos los instrumentos
         btnMostrarTodos.setOnAction(e -> {
-            prepararPantallaAccion(lblInstruccion, txtInput, btnEjecutar, listaResultados,
-                    "Todos los instrumentos registrados:", false);
+            prepararPantallaAccion(lblInstruccion, cbFiltro, txtInput, btnEjecutar,
+                    listaResultados, "Todos los instrumentos registrados:", false, null);
             List<Instrumento> res = gestor.obtenerTodos();
             for(Instrumento i : res) listaResultados.getItems().add(i.toString());
+            if (res.isEmpty()) {
+                listaResultados.getItems().add("No hay instrumentos registrados");
+            }
             ventana.setScene(escenaAccion);
         });
 
@@ -301,7 +355,6 @@ public class DemoGUI extends Application {
         btnIrRegistro.setOnAction(e -> ventana.setScene(escenaRegistro));
         btnIrGestion.setOnAction(e -> ventana.setScene(escenaSubmenuGestion));
         btnSalir.setOnAction(e -> {
-            //guardado automatico al salir
             try {
                 AlmacenamientoCSV.guardarCSV("Instrumentos.csv", gestor.obtenerTodos());
             } catch (Exception ex) {
@@ -310,7 +363,6 @@ public class DemoGUI extends Application {
             ventana.close();
         });
 
-        //carga automatica al iniciar
         try {
             List<Instrumento> cargados = AlmacenamientoCSV.cargarCSV("Instrumentos.csv");
             gestor.cargarInstrumentos(cargados);
@@ -323,20 +375,33 @@ public class DemoGUI extends Application {
         ventana.show();
     }
 
-    //esto es para no ocupar reescribir el layout de gestión de instrumentos por cada gestión
-    private void prepararPantallaAccion(Label lbl, TextField txt, Button btn,
+    private void prepararPantallaAccion(Label lbl, ComboBox<String> cb, TextField txt, Button btn,
                                         ListView<String> lista, String textoInstruccion,
-                                        boolean requiereInput) {
+                                        boolean usarComboBox, String... opciones) {
         lbl.setText(textoInstruccion);
         txt.clear();
         lista.getItems().clear();
-        txt.setVisible(requiereInput);
-        txt.setManaged(requiereInput);
-        btn.setVisible(requiereInput);
-        btn.setManaged(requiereInput);
+
+        if (usarComboBox && opciones != null) {
+            cb.getItems().clear();
+            cb.getItems().addAll(opciones);
+            cb.setValue(null);
+            cb.setVisible(true);
+            cb.setManaged(true);
+            txt.setVisible(false);
+            txt.setManaged(false);
+            btn.setVisible(true);
+            btn.setManaged(true);
+        } else {
+            cb.setVisible(false);
+            cb.setManaged(false);
+            txt.setVisible(true);
+            txt.setManaged(true);
+            btn.setVisible(true);
+            btn.setManaged(true);
+        }
     }
 
-    // Metodo para mostrar alertas
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);

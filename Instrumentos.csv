@@ -1,4 +1,31 @@
 Nombre,Forma,Tipo,Condicion,Autores,Evaluado,Cita
-asdf,test,ambos,ansiedad,astrid,true,sdfg
-ghjk,escala,manejar,estres,roberta;galaviz,true,sdfg
-qwer,cuestionario,identificar,ambos,raul,false,ljkds
+Inventario de Ansiedad de Beck,Cuestionario,Identificar,Ansiedad,Aaron Beck|Norman Epstein,true,Beck A.T. & Epstein N. (1990). Inventario de Ansiedad de Beck. Manual.
+Escala de Estres Percibido,Escala,Identificar,Estres,Sheldon Cohen|Tom Kamarck|Robin Mermelstein,true,Cohen S., Kamarck T. & Mermelstein R. (1983). A global measure of perceived stress.
+Cuestionario de Ansiedad General,Cuestionario,Identificar,Ansiedad,Robert Spitzer|Kurt Kroenke,true,Spitzer R.L., Kroenke K. & Williams J.B.W. (2006). A brief measure for assessing generalized anxiety disorder.
+Escala de Relajacion Progresiva,Escala,Manejar,Estres,Edmund Jacobson,true,Jacobson E. (1938). Progressive Relaxation. University of Chicago Press.
+Registro de Sintomas de Ansiedad,Registro,Identificar,Ansiedad,Laura Martinez,false,Martinez L. (2020). Registro de sintomas de ansiedad. Manual de aplicacion.
+Cuestionario de Manejo del Estres,Cuestionario,Manejar,Estres,Carlos Ramirez|Ana Torres,false,Ramirez C. & Torres A. (2019). Cuestionario de manejo del estres. Guia practica.
+Escala de Ansiedad Estado-Rasgo,Escala,Identificar,Ansiedad,Charles Spielberger|Richard Gorsuch|Robert Lushene,true,Spielberger C.D., Gorsuch R.L. & Lushene R.E. (1970). Manual for the State-Trait Anxiety Inventory.
+Inventario de Situaciones Estresantes,Inventario,Identificar,Estres, Maria Lopez|Jose Hernandez,false,Lopez M. & Hernandez J. (2018). Inventario de situaciones estresantes. Manual.
+Cuestionario de Afrontamiento,Cuestionario,Manejar,Estres,Susan Folkman|Richard Lazarus,true,Folkman S. & Lazarus R.S. (1988). Manual for the Ways of Coping Questionnaire.
+Escala Breve de Ansiedad,Escala,Identificar,Ansiedad,Daniel Ruiz,false,Ruiz D. (2021). Escala breve de ansiedad. Validacion en poblacion general.
+Registro Diario de Estres,Registro,Identificar,Estres,Patricia Gomez,false,Gomez P. (2020). Registro diario de estres. Manual de uso.
+Escala de Tecnicas de Respiracion,Escala,Manejar,Ansiedad,Miguel Sanchez|Laura Martinez,false,Sanchez M. & Martinez L. (2019). Escala de tecnicas de respiracion. Guia practica.
+Inventario de Preocupacion,Inventario,Identificar,Ansiedad,Thomas Meyer|Michelle Miller,true,Meyer T.J. & Miller M.L. (1990). Development and validation of the Penn State Worry Questionnaire.
+Cuestionario de Estres Academico,Cuestionario,Identificar,Estres,Ana Torres|Carlos Ramirez,true,Torres A. & Ramirez C. (2018). Cuestionario de estres academico. Validacion.
+Escala de Control Emocional,Escala,Manejar,Ambos,Jose Hernandez|Maria Lopez,true,Hernandez J. & Lopez M. (2020). Escala de control emocional. Manual.
+Registro de Pensamientos Ansiosos,Registro,Manejar,Ansiedad,Laura Martinez,false,Martinez L. (2021). Registro de pensamientos ansiosos. Guia de aplicacion.
+Inventario de Estres Laboral,Inventario,Identificar,Estres,Robert Karasek,true,Karasek R.A. (1979). Job demands, job decision latitude, and mental strain.
+Cuestionario de Tecnicas de Relajacion,Cuestionario,Manejar,Ambos,Edmund Jacobson|Miguel Sanchez,true,Jacobson E. & Sanchez M. (2021). Cuestionario de tecnicas de relajacion. Manual.
+Escala de Sintomas Fisicos,Escala,Identificar,Ambos,Patricia Gomez|Daniel Ruiz,false,Gomez P. & Ruiz D. (2020). Escala de sintomas fisicos. Validacion.
+Registro de Habitos de Sueno,Registro,Identificar,Estres,Ana Torres,false,Torres A. (2020). Registro de habitos de sueno. Manual.
+Inventario de Ansiedad Social,Inventario,Identificar,Ansiedad,Richard Heimberg|Michael Liebowitz,true,Heimberg R.G. & Liebowitz M.R. (1998). Social anxiety disorder. Manual.
+Escala de Afrontamiento Activo,Escala,Manejar,Estres,Susan Folkman|Richard Lazarus,true,Folkman S. & Lazarus R.S. (1988). Manual for the Ways of Coping Questionnaire.
+Cuestionario de Preocupacion Diaria,Cuestionario,Identificar,Ansiedad,Thomas Meyer,true,Meyer T.J. (1990). Development and validation of the Penn State Worry Questionnaire.
+Registro de Ejercicios de Respiracion,Registro,Manejar,Ansiedad,Miguel Sanchez,false,Sanchez M. (2021). Registro de ejercicios de respiracion. Guia practica.
+Escala de Estres Cotidiano,Escala,Identificar,Estres,Sheldon Cohen|Robin Mermelstein,true,Cohen S. & Mermelstein R. (1983). A global measure of perceived stress.
+Inventario de Regulacion Emocional,Inventario,Manejar,Ambos,James Gross|Oliver John,true,Gross J.J. & John O.P. (2003). Individual differences in two emotion regulation processes.
+Cuestionario de Sintomas de Estres,Cuestionario,Identificar,Estres,Carlos Ramirez,false,Ramirez C. (2019). Cuestionario de sintomas de estres. Manual.
+Escala de Autocontrol ante Ansiedad,Escala,Manejar,Ansiedad,Maria Lopez|Daniel Ruiz,false,Lopez M. & Ruiz D. (2020). Escala de autocontrol ante ansiedad. Guia.
+Registro de Estrategias de Afrontamiento,Registro,Manejar,Ambos,Susan Folkman|Ana Torres,true,Folkman S. & Torres A. (2021). Registro de estrategias de afrontamiento. Manual.
+Inventario General de Ansiedad y Estres,Inventario,Identificar,Ambos,Jose Hernandez|Patricia Gomez,true,Hernandez J. & Gomez P. (2021). Inventario general de ansiedad y estres. Validacion.

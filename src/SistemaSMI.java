@@ -1,12 +1,21 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
-class SistemaSMI {
+public class SistemaSMI {
     private List<Instrumento> instrumentos;
     private Map<String, Instrumento> mapaPorNombre;
+    private int size;
 
     public SistemaSMI() {
         this.instrumentos = new ArrayList<>();
         this.mapaPorNombre = new HashMap<>();
+        this.size = 0;
+    }
+
+    public SistemaSMI(int capacidadInicial) {
+        this.instrumentos = new ArrayList<>(capacidadInicial);
+        this.mapaPorNombre = new HashMap<>();
+        this.size = 0;
     }
 
     public boolean agregarInstrumento(Instrumento inst) {
@@ -15,6 +24,7 @@ class SistemaSMI {
         }
         instrumentos.add(inst);
         mapaPorNombre.put(inst.getNombre().toLowerCase(), inst);
+        size++;
         return true;
     }
 
@@ -23,81 +33,73 @@ class SistemaSMI {
             if (!mapaPorNombre.containsKey(inst.getNombre().toLowerCase())) {
                 instrumentos.add(inst);
                 mapaPorNombre.put(inst.getNombre().toLowerCase(), inst);
+                size++;
             }
         }
     }
 
+    //buscar por autor
     public List<Instrumento> buscarPorAutor(String autor) {
-        List<Instrumento> resultado = new ArrayList<>();
-        for (Instrumento inst : instrumentos) {
-            for (String a : inst.getAutores()) {
-                if (a.toLowerCase().contains(autor.toLowerCase())) {
-                    resultado.add(inst);
-                    break;
-                }
-            }
-        }
-        return resultado;
+        return instrumentos.stream()
+                .filter(inst -> inst.getAutores().stream()
+                        .anyMatch(a -> a.toLowerCase().contains(autor.toLowerCase())))
+                .collect(Collectors.toList());
     }
 
+    //buscar por tipo
     public List<Instrumento> buscarPorTipo(String tipo) {
-        List<Instrumento> resultado = new ArrayList<>();
-        for (Instrumento inst : instrumentos) {
-            if (inst.getTipo().toLowerCase().contains(tipo.toLowerCase())) {
-                resultado.add(inst);
-            }
-        }
-        return resultado;
+        return instrumentos.stream()
+                .filter(inst -> inst.getTipo().toLowerCase().contains(tipo.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
+    //buscar por forma
     public List<Instrumento> buscarPorForma(String forma) {
-        List<Instrumento> resultado = new ArrayList<>();
-        for (Instrumento inst : instrumentos) {
-            if (inst.getForma().toLowerCase().equals(forma.toLowerCase())) {
-                resultado.add(inst);
-            }
-        }
-        return resultado;
+        return instrumentos.stream()
+                .filter(inst -> inst.getForma().toLowerCase().equals(forma.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
+    //buscar por condicion
     public List<Instrumento> buscarPorCondicion(String condicion) {
-        List<Instrumento> resultado = new ArrayList<>();
-        for (Instrumento inst : instrumentos) {
-            if (inst.getCondicion().toLowerCase().contains(condicion.toLowerCase())) {
-                resultado.add(inst);
-            }
-        }
-        return resultado;
+        return instrumentos.stream()
+                .filter(inst -> inst.getCondicion().toLowerCase().contains(condicion.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
+    //buscar por evaluacion
     public List<Instrumento> buscarPorEvaluacion(boolean evaluado) {
-        List<Instrumento> resultado = new ArrayList<>();
-        for (Instrumento inst : instrumentos) {
-            if (inst.isEvaluado() == evaluado) {
-                resultado.add(inst);
-            }
-        }
-        return resultado;
+        return instrumentos.stream()
+                .filter(inst -> inst.isEvaluado() == evaluado)
+                .collect(Collectors.toList());
     }
 
-    public List<Instrumento> ordenarPorClave() {
-        List<Instrumento> copia = new ArrayList<>(instrumentos);
-        copia.sort(Comparator.comparing(Instrumento::getNombre));
-        return copia;
-    }
-
-    public List<Instrumento> ordenarPorPrimerAutor() {
-        List<Instrumento> copia = new ArrayList<>(instrumentos);
-        copia.sort(Comparator.comparing(Instrumento::getPrimerAutor));
-        return copia;
-    }
-
+    //eliminar por clave
     public boolean eliminarPorClave(String nombre) {
-        Instrumento removido = mapaPorNombre.remove(nombre.toLowerCase());
-        if (removido != null) {
-            return instrumentos.remove(removido);
+        boolean eliminado = instrumentos.removeIf(inst ->
+                inst.getNombre().equalsIgnoreCase(nombre)
+        );
+        if (eliminado) {
+            mapaPorNombre.remove(nombre.toLowerCase());
+            size--;
         }
-        return false;
+        return eliminado;
+    }
+
+    //ordenar por clave
+    public List<Instrumento> ordenarPorClave() {
+        return instrumentos.stream()
+                .sorted(Comparator.comparing(Instrumento::getNombre))
+                .collect(Collectors.toList());
+    }
+
+    //ordenar por primer autor
+    public List<Instrumento> ordenarPorPrimerAutor() {
+        return instrumentos.stream()
+                .sorted(Comparator.comparing(inst ->
+                        inst.getAutores().isEmpty() ? "" : inst.getAutores().get(0)
+                ))
+                .collect(Collectors.toList());
     }
 
     public List<Instrumento> obtenerTodos() {
@@ -105,6 +107,6 @@ class SistemaSMI {
     }
 
     public int cantidad() {
-        return instrumentos.size();
+        return size;
     }
 }
